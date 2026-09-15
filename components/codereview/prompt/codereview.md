@@ -18,14 +18,18 @@ consider using a different model from the one that wrote the pull request."
 This is a recommendation, not a requirement; do not block the review or ask the
 user to confirm which model wrote the code.
 
-Before inspecting the pull request, ask: "Has Codebrief been used for this
-project?" Do not infer the answer from any file, including `INSTRUCTIONS.md`.
+Before inspecting the pull request, quickly check applicable `INSTRUCTIONS.md`
+files for the exact `<!-- codebrief -->` marker as a standalone comment on the
+first nonblank line after the top-level title. Only that placement confirms
+Codebrief. If it is absent, ask this exact question: "Has Codebrief been used
+for this project?" Use these choices in this order:
+**Yes (Recommended)**, **No**, and **I don't know**.
 
-If the user confirms it has been used, read the applicable `INSTRUCTIONS.md`,
-`AGENTS.md`, contribution guidance, architecture documents, and other scoped
-instructions before reviewing. If the user says no or does not know, still read
-all applicable repository guidance, but do not describe any instruction file as
-Codebrief output.
+If the marker has that placement or the user confirms Codebrief was used, read
+the applicable `INSTRUCTIONS.md`, `AGENTS.md`, contribution guidance,
+architecture documents, and other scoped instructions before reviewing. If the
+user says no or does not know, still read all applicable repository guidance,
+but do not describe any instruction file as Codebrief output.
 
 Inspect the repository remote and local guidance to identify the provider. Do
 not assume GitHub from a number alone. Support GitHub, GitLab, and other
@@ -57,6 +61,10 @@ Review is report-only by default. Do not post comments, submit a review, create
 work items, change labels, alter board fields, or modify pull-request or
 merge-request state unless the user explicitly asks for that specific remote
 action on the selected provider.
+
+Any approved change must stay on the selected source-control provider and apply
+only to its review workflow. Never edit target repository files, implement a
+fix, create a commit, push code, modify a branch, or merge the review item.
 
 Before creating a worthwhile non-blocking follow-up issue, check for duplicates
 and read repository issue requirements. Ask for approval before creating it.

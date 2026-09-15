@@ -78,6 +78,10 @@ questions, and asks for approval. It can separately preview and create or update
 `CONTRIBUTING.md`, then add concise references to both guidance files in
 applicable `AGENTS.md` files. Each file requires separate approval.
 
+Codebrief adds `<!-- codebrief -->` below the `INSTRUCTIONS.md` title. Other
+Codefactory capabilities use this marker to recognize Codebrief output without
+asking the user.
+
 Run Codebrief again after updating it or when the repository changes. It treats
 the existing `INSTRUCTIONS.md` as the record of prior decisions and asks only
 about gaps, changed project evidence, newly relevant topics, or choices you

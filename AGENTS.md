@@ -10,8 +10,9 @@ agents. Current components are `codebrief` and `codereview`.
 - Read and follow `INSTRUCTIONS.md` and `CONTRIBUTING.md`.
 - Keep each component focused and separately installable.
 - Keep component prompts and adapter frontmatter inside that component.
-- Ask whether Codebrief has been used before a Codefactory capability starts.
-  Never infer the answer from the presence of `INSTRUCTIONS.md`.
+- Before a Codefactory capability starts, check applicable `INSTRUCTIONS.md`
+  files for `<!-- codebrief -->`. Treat the marker as confirmation that
+  Codebrief was used; otherwise ask.
 - Read the closest component `AGENTS.md` before changing that component.
 - Do not add an application runtime or model API dependency without approval.
 - Do not add a third component or a new agent install target without approval.

@@ -1,5 +1,7 @@
 # INSTRUCTIONS.md
 
+<!-- codebrief -->
+
 ## Project
 
 Codefactory packages focused, separately installable coding-agent capabilities.
@@ -66,8 +68,8 @@ Follow `CONTRIBUTING.md` for the full git and GitHub Issues procedure.
 - Ask when expected behavior is unclear, a choice has lasting effects, or work
   grows beyond the plan.
 - Codefactory capabilities are opt-in. Before using one, follow its prompt and
-  ask whether Codebrief has been used. Never infer the answer from an
-  `INSTRUCTIONS.md` file.
+  check applicable `INSTRUCTIONS.md` files for `<!-- codebrief -->`. Treat the
+  marker as confirmation that Codebrief was used; otherwise ask.
 
 ## Collaboration and version control
 
@@ -186,7 +188,7 @@ dependency change, a hosted-model send, or other network use.
 - The local and remote topic branches are deleted.
 - The merged branch is not reused.
 
-## Open questions
+## GitHub Projects
 
-- GitHub Project name, number, and board statuses are not set. Use GitHub Issue
-  labels for state. Do not invent a board workflow.
+- GitHub Projects is not configured. Use GitHub Issue labels for state. Do not
+  invent project identifiers, fields, statuses, or board transitions.

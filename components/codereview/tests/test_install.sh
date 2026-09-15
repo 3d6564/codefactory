@@ -9,12 +9,38 @@ fail() { echo "FAIL: $1" >&2; exit 1; }
 assert_file() { [[ -f "$1" ]] || fail "missing file $1"; }
 assert_contains() { grep -qF -- "$2" "$1" || fail "$1 does not contain: $2"; }
 
+assert_marker_contract() {
+    local placement='comment on the first nonblank line after the top-level title'
+    local file normalized
+
+    for file in "$PROJECT_DIR/prompt/codereview.md" \
+        "$PROJECT_DIR/AGENTS.md" "$PROJECT_DIR/README.md"; do
+        normalized="$(tr '\n\t' '  ' < "$file" | tr -s ' ')"
+        [[ "$normalized" == *"$placement"* ]] \
+            || fail "$file does not define the Codebrief marker placement"
+    done
+}
+
+assert_no_code_changes_contract() {
+    local rule='Never edit target repository files'
+    local file normalized
+
+    for file in "$PROJECT_DIR/prompt/codereview.md" \
+        "$PROJECT_DIR/AGENTS.md" "$PROJECT_DIR/README.md"; do
+        normalized="$(tr '\n\t' '  ' < "$file" | tr -s ' ')"
+        [[ "$normalized" == *"$rule"* ]] \
+            || fail "$file does not prohibit target repository edits"
+    done
+}
+
 assert_file "$PROJECT_DIR/prompt/codereview.md"
 assert_file "$PROJECT_DIR/packaging/opencode/agent-frontmatter.md"
 assert_file "$PROJECT_DIR/packaging/opencode/command.md"
 assert_contains "$PROJECT_DIR/prompt/codereview.md" 'For a more independent review'
 assert_contains "$PROJECT_DIR/prompt/codereview.md" 'Has Codebrief been used'
-assert_contains "$PROJECT_DIR/prompt/codereview.md" 'Do not infer the answer'
+assert_marker_contract
+assert_contains "$PROJECT_DIR/prompt/codereview.md" 'Use these choices in this'
+assert_contains "$PROJECT_DIR/prompt/codereview.md" '**Yes (Recommended)**, **No**, and **I don'
 assert_contains "$PROJECT_DIR/prompt/codereview.md" 'GitHub, GitLab, and other'
 assert_contains "$PROJECT_DIR/prompt/codereview.md" 'provider URL or a positive'
 assert_contains "$PROJECT_DIR/prompt/codereview.md" 'Do not block a local review'
@@ -22,6 +48,7 @@ assert_contains "$PROJECT_DIR/prompt/codereview.md" 'Follow-up Verification'
 assert_contains "$PROJECT_DIR/prompt/codereview.md" 'Fixed**, **Not fixed**, or **Cannot check'
 assert_contains "$PROJECT_DIR/prompt/codereview.md" 'Network approval does not authorize review-comment resolution'
 assert_contains "$PROJECT_DIR/prompt/codereview.md" 'Do not resolve unrelated, outdated, informational, or duplicate review'
+assert_no_code_changes_contract
 
 if bash "$PROJECT_DIR/install.sh" --local >/dev/null 2>&1; then
     fail "--local without a path should fail"

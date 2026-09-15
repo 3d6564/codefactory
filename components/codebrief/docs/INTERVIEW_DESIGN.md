@@ -96,6 +96,7 @@ revisit them.
 
 The generated `INSTRUCTIONS.md` should:
 
+- include `<!-- codebrief -->` directly below the top-level title
 - state its scope and how nested instruction files interact
 - identify scoped agent files that need a separately approved relative reference
   to the generated file
