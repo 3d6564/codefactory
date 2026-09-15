@@ -34,13 +34,16 @@ assert_no_code_changes_contract() {
 }
 
 assert_merge_contract() {
-    local rule='receiving an explicit user request to merge it'
+    local completion_rule='after completing the review'
+    local request_rule='receiving an explicit user request to merge it'
     local file normalized
 
     for file in "$PROJECT_DIR/prompt/codereview.md" \
         "$PROJECT_DIR/AGENTS.md" "$PROJECT_DIR/README.md"; do
         normalized="$(tr '\n\t' '  ' < "$file" | tr -s ' ')"
-        [[ "$normalized" == *"$rule"* ]] \
+        [[ "$normalized" == *"$completion_rule"* ]] \
+            || fail "$file does not require review completion before merge"
+        [[ "$normalized" == *"$request_rule"* ]] \
             || fail "$file does not require an explicit user request to merge"
     done
 }
