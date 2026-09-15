@@ -21,7 +21,8 @@ It does not implement product features in a target repository.
   reviews, issues, or other remote changes.
 - Make approved changes only to the selected provider's review workflow. Never
   edit target repository files, implement fixes, create commits, push code,
-  modify branches, or merge the review item.
+  or modify branches. Merge the selected review item only after completing the
+  review and receiving an explicit user request to merge it.
 - Do not read secrets, generated evidence, local databases, or private notes.
 - Keep the canonical capability prompt under `prompt/` and adapter frontmatter
   under `packaging/`.

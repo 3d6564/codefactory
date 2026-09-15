@@ -33,6 +33,18 @@ assert_no_code_changes_contract() {
     done
 }
 
+assert_merge_contract() {
+    local rule='receiving an explicit user request to merge it'
+    local file normalized
+
+    for file in "$PROJECT_DIR/prompt/codereview.md" \
+        "$PROJECT_DIR/AGENTS.md" "$PROJECT_DIR/README.md"; do
+        normalized="$(tr '\n\t' '  ' < "$file" | tr -s ' ')"
+        [[ "$normalized" == *"$rule"* ]] \
+            || fail "$file does not require an explicit user request to merge"
+    done
+}
+
 assert_file "$PROJECT_DIR/prompt/codereview.md"
 assert_file "$PROJECT_DIR/packaging/opencode/agent-frontmatter.md"
 assert_file "$PROJECT_DIR/packaging/opencode/command.md"
@@ -49,6 +61,7 @@ assert_contains "$PROJECT_DIR/prompt/codereview.md" 'Fixed**, **Not fixed**, or 
 assert_contains "$PROJECT_DIR/prompt/codereview.md" 'Network approval does not authorize review-comment resolution'
 assert_contains "$PROJECT_DIR/prompt/codereview.md" 'Do not resolve unrelated, outdated, informational, or duplicate review'
 assert_no_code_changes_contract
+assert_merge_contract
 
 if bash "$PROJECT_DIR/install.sh" --local >/dev/null 2>&1; then
     fail "--local without a path should fail"

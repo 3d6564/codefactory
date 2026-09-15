@@ -64,7 +64,9 @@ action on the selected provider.
 
 Any approved change must stay on the selected source-control provider and apply
 only to its review workflow. Never edit target repository files, implement a
-fix, create a commit, push code, modify a branch, or merge the review item.
+fix, create a commit, push code, or modify a branch. Merge the selected review
+item only after completing the review and receiving an explicit user request to
+merge it.
 
 Before creating a worthwhile non-blocking follow-up issue, check for duplicates
 and read repository issue requirements. Ask for approval before creating it.
