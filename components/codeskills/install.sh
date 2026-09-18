@@ -29,7 +29,7 @@ done
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 SKILL_DIR="$SCRIPT_DIR/skills/$SKILL"
-PROMPT_SOURCE="$SKILL_DIR/prompt.md"
+PROMPT_SOURCE="$SKILL_DIR/SKILL.md"
 PACKAGING="$SKILL_DIR/packaging"
 
 [[ -f "$PROMPT_SOURCE" ]] || { echo "Codeskills prompt is missing: $PROMPT_SOURCE" >&2; exit 1; }
@@ -92,11 +92,24 @@ install_file() {
 write_composed_markdown() {
     local header="$1" dest="$2" tmp
     tmp="$(mktemp)"
-    { cat "$header"; echo; cat "$PROMPT_SOURCE"; } > "$tmp"
+    { cat "$header"; echo; append_skill_body; } > "$tmp"
     if files_match "$tmp" "$dest"; then rm -f "$tmp"; echo "Already up to date: $dest"; return 0; fi
     [[ ! -e "$dest" && ! -L "$dest" ]] || confirm_replace
     install_file "$tmp" "$dest"
     rm -f "$tmp"
+}
+
+append_skill_body() {
+    local line separators=0
+    while IFS= read -r line || [[ -n "$line" ]]; do
+        if [[ "$separators" -lt 2 ]]; then
+            if [[ "$line" == "---" ]]; then
+                ((separators += 1))
+            fi
+            continue
+        fi
+        printf '%s\n' "$line"
+    done < "$PROMPT_SOURCE"
 }
 
 write_raw_file() {
@@ -114,7 +127,7 @@ write_codex_toml() {
         printf '%s\n' 'description = "Reviews project work and prepares the next implementation choice."'
         printf '%s\n' 'sandbox_mode = "read-only"'
         printf '%s\n' 'developer_instructions = """'
-        cat "$PROMPT_SOURCE"
+        append_skill_body
         printf '\n%s\n' '"""'
     } > "$tmp"
     if files_match "$tmp" "$dest"; then rm -f "$tmp"; echo "Already up to date: $dest"; return 0; fi

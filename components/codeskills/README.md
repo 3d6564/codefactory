@@ -2,6 +2,8 @@
 
 Codeskills is a collection of reusable skills for coding agents. Each skill is installed for one selected agent. The installer currently includes `backlog-triage`.
 
+Each skill has a portable `SKILL.md` with `name` and `description` YAML frontmatter. Adapter-specific frontmatter stays separate when a target needs additional metadata.
+
 ## Install
 
 ```bash

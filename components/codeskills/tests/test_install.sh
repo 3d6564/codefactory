@@ -9,12 +9,14 @@ fail() { echo "FAIL: $1" >&2; exit 1; }
 assert_file() { [[ -f "$1" ]] || fail "missing file $1"; }
 assert_contains() { grep -qF -- "$2" "$1" || fail "$1 does not contain: $2"; }
 
-assert_file "$PROJECT_DIR/skills/backlog-triage/prompt.md"
+assert_file "$PROJECT_DIR/skills/backlog-triage/SKILL.md"
 assert_file "$PROJECT_DIR/skills/backlog-triage/packaging/opencode/agent-frontmatter.md"
 assert_file "$PROJECT_DIR/skills/backlog-triage/packaging/opencode/command.md"
-assert_contains "$PROJECT_DIR/skills/backlog-triage/prompt.md" 'Has Codebrief been used for this project?'
-assert_contains "$PROJECT_DIR/skills/backlog-triage/prompt.md" 'Triage is read-only by default.'
-assert_contains "$PROJECT_DIR/skills/backlog-triage/prompt.md" 'show the exact change and ask for explicit approval'
+assert_contains "$PROJECT_DIR/skills/backlog-triage/SKILL.md" 'name: backlog-triage'
+assert_contains "$PROJECT_DIR/skills/backlog-triage/SKILL.md" 'description: Review project work'
+assert_contains "$PROJECT_DIR/skills/backlog-triage/SKILL.md" 'Has Codebrief been used for this project?'
+assert_contains "$PROJECT_DIR/skills/backlog-triage/SKILL.md" 'Triage is read-only by default.'
+assert_contains "$PROJECT_DIR/skills/backlog-triage/SKILL.md" 'show the exact change and ask for explicit approval'
 
 if bash "$PROJECT_DIR/install.sh" --global --yes >/dev/null 2>&1; then fail "--yes without --agent should fail"; fi
 
@@ -24,9 +26,11 @@ HOME="$TEMP_DIR/home" bash "$PROJECT_DIR/install.sh" --agent opencode --global -
 assert_file "$TEMP_DIR/home/.config/opencode/agents/backlog-triage.md"
 assert_file "$TEMP_DIR/home/.config/opencode/commands/backlog-triage.md"
 assert_contains "$TEMP_DIR/home/.config/opencode/agents/backlog-triage.md" 'edit: deny'
+assert_contains "$TEMP_DIR/home/.config/opencode/agents/backlog-triage.md" '# Backlog Triage'
 
 HOME="$TEMP_DIR/home" bash "$PROJECT_DIR/install.sh" --agent prompt --global --yes >/dev/null
 assert_file "$TEMP_DIR/home/.config/codefactory/codeskills/backlog-triage.md"
+assert_contains "$TEMP_DIR/home/.config/codefactory/codeskills/backlog-triage.md" 'name: backlog-triage'
 
 bash "$PROJECT_DIR/install.sh" --agent claude --local "$TEMP_DIR/project" --yes >/dev/null
 assert_file "$TEMP_DIR/project/.claude/agents/backlog-triage.md"

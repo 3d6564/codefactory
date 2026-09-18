@@ -8,7 +8,7 @@ The first skill, `backlog-triage`, reviews project work before implementation.
 ## Working Rules
 
 - Read and follow `../../INSTRUCTIONS.md` and `../../CONTRIBUTING.md`.
-- Keep each skill under `skills/<skill-name>/` with its prompt and adapter frontmatter.
+- Keep each skill under `skills/<skill-name>/` with a portable `SKILL.md` and adapter frontmatter.
 - Keep skills report-first. Do not change target repository files.
 - Check applicable `INSTRUCTIONS.md` files for the Codebrief marker before a skill starts. Ask when it is absent.
 - Ask before network access and before remote issue or board changes.
