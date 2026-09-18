@@ -10,10 +10,12 @@ Usage: ./install.sh <component> [component options]
 Components:
   codebrief   Create project-specific coding-agent instructions
   codereview  Review one pull request or merge request by URL or number
+  codeskills  Install reusable coding-agent skills
 
 Examples:
   ./install.sh codebrief --agent opencode --global
   ./install.sh codereview --agent claude --local /path/to/project
+  ./install.sh codeskills --agent cursor --global
 EOF
 }
 
@@ -27,7 +29,7 @@ case "$1" in
         usage
         exit 0
         ;;
-    codebrief|codereview)
+    codebrief|codereview|codeskills)
         component="$1"
         shift
         exec bash "$SCRIPT_DIR/components/$component/install.sh" "$@"

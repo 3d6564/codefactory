@@ -5,9 +5,9 @@
 ## Project
 
 Codefactory packages focused, separately installable coding-agent capabilities.
-Current components are `codebrief` and `codereview`.
+Current components are `codebrief`, `codereview`, and `codeskills`.
 
-Harden those two components and add behavior inside them. Do not add a third
+Harden existing components and add behavior inside them. Do not add another
 component without approval. Do not add a new agent install target beyond
 `opencode`, `prompt`, `claude`, `cursor`, `copilot`, and `codex` without
 approval. Do not add an application runtime or model API dependency without
@@ -26,13 +26,12 @@ approval.
 
 Treat these as the named sources:
 
-- root `AGENTS.md`, `INSTRUCTIONS.md`, and `CONTRIBUTING.md`
-- `components/codebrief/AGENTS.md` and `components/codereview/AGENTS.md`
+- root `AGENTS.md`, `INSTRUCTIONS.md`, `CONTRIBUTING.md`, and `VERSIONS.md`
+- component `AGENTS.md` files
 - each component `prompt/` directory
 - each component `packaging/` directory
 - root `install.sh` and each component `install.sh`
-- `tests/test_install.sh`, `components/codebrief/tests/test_install.sh`, and
-  `components/codereview/tests/test_install.sh`
+- `tests/test_install.sh` and component `tests/test_install.sh` files
 
 Follow `CONTRIBUTING.md` for the full git and GitHub Issues procedure.
 
@@ -127,6 +126,7 @@ documented.
 bash tests/test_install.sh
 bash components/codebrief/tests/test_install.sh
 bash components/codereview/tests/test_install.sh
+bash components/codeskills/tests/test_install.sh
 ```
 
 GitHub Actions runs the same commands on pull requests and on `main`.
