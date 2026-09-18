@@ -11,6 +11,7 @@ assert_contains() { grep -qF -- "$2" "$1" || fail "$1 does not contain: $2"; }
 
 assert_file "$PROJECT_DIR/components/codebrief/install.sh"
 assert_file "$PROJECT_DIR/components/codereview/install.sh"
+assert_file "$PROJECT_DIR/components/codeskills/install.sh"
 assert_contains "$PROJECT_DIR/README.md" 'pull request or merge request by URL or number'
 assert_contains "$PROJECT_DIR/install.sh" 'pull request or merge request by URL or number'
 
@@ -31,5 +32,9 @@ assert_file "$TEMP_DIR/home/.config/codebrief/codebrief.md"
 bash "$PROJECT_DIR/install.sh" \
     codereview --agent prompt --local "$TEMP_DIR/project" --yes >/dev/null
 assert_file "$TEMP_DIR/project/.codefactory/codereview.md"
+
+HOME="$TEMP_DIR/home" bash "$PROJECT_DIR/install.sh" \
+    codeskills --agent prompt --global --yes >/dev/null
+assert_file "$TEMP_DIR/home/.config/codefactory/codeskills/backlog-triage.md"
 
 echo "Codefactory dispatcher checks passed."

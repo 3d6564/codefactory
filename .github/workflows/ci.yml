@@ -19,3 +19,5 @@ jobs:
         run: bash components/codebrief/tests/test_install.sh
       - name: Run Codereview installer tests
         run: bash components/codereview/tests/test_install.sh
+      - name: Run Codeskills installer tests
+        run: bash components/codeskills/tests/test_install.sh
