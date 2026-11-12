@@ -23,7 +23,7 @@ All modes obey the same project rules and approval limits.
 - **Clarity:** Write correct, human-readable code. Use clear names, cohesive functions, explicit control flow, and project conventions. Avoid needless abstractions and dependencies.
 - **Efficiency:** Assess time complexity, I/O, memory use, copies, allocations, and resource lifetime for expected inputs. Bound memory and concurrency; stream or batch large data when useful. Optimize measured problems, not guesses. Preserve readability.
 - **Security:** Apply the project's threat model. Validate untrusted input, enforce authorization and resource limits, parameterize queries, encode output for its context, and safely handle paths, commands, and deserialization. Protect secrets, close resources, and fail safely. Do not claim exploit resistance without evidence.
-- **Verification:** Keep changes scoped. Test normal behavior, boundaries, failures, and relevant abuse cases. Run documented checks. Report unverified performance and security risks.
+- **Verification:** Keep changes scoped. Add focused tests for normal behavior, boundaries, failures, and relevant abuse cases. Run documented checks. Report unverified performance and security risks.
 
 ## Docstrings and discovery
 

@@ -110,6 +110,18 @@ approves it.
 See `docs/INTERVIEW_DESIGN.md` for the interview flow, evidence rules, branching
 topics, and output contract.
 
+
+## Standalone skill and agent formats
+
+The CodeBrief interview uses one core prompt: `prompt/codebrief.md`. Install that same behavior as a reusable skill, an agent, or both. A standalone skill adds no custom agent definition and grants no tool permissions.
+
+```bash
+./install.sh codebrief --agent opencode --format skill --local .
+./install.sh codebrief --agent claude --format both --global
+```
+
+The root installer also accepts comma-separated component selections and `all`. Existing commands without `--format` retain agent installation behavior. Cursor uses its skill as the invocation surface. `prompt` exports instructions rather than a host-specific agent. See the [root installation guide](../../README.md).
+
 ## Verify
 
 ```bash
