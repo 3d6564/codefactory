@@ -40,6 +40,18 @@ assert_file "$TMP/project/.github/agents/codewriter.agent.md"
 bash "$ROOT/install.sh" codewriter --agent codex --format both --local "$TMP/project" --yes
 assert_file "$TMP/project/.codex/agents/codewriter.toml"
 assert_has "$TMP/project/.codex/agents/codewriter.toml" "developer_instructions"
+if command -v python3 >/dev/null 2>&1; then
+  python3 - "$TMP/project/.codex/agents/codewriter.toml" <<'PY'
+import pathlib
+import sys
+import tomllib
+
+config = tomllib.loads(pathlib.Path(sys.argv[1]).read_text())
+assert config["name"] == "codewriter"
+assert "def read_records" in config["developer_instructions"]
+assert '"""Stream validated records' in config["developer_instructions"]
+PY
+fi
 bash "$ROOT/install.sh" codewriter --agent prompt --format agent --local "$TMP/project" --yes
 assert_file "$TMP/project/.codefactory/codewriter.md"
 
