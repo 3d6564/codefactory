@@ -7,6 +7,7 @@ usage() {
 Usage: ./install.sh <component|all|component,component> --agent NAME [--format skill|agent|both] [--global|--local DIR] [--yes]
 
 Components: codebrief, codewriter, codereview
+  codereview: review one pull request or merge request by URL or number
 Formats: agent (default), skill, both
 Agents: opencode, prompt, claude, cursor, copilot, codex
 Examples:
