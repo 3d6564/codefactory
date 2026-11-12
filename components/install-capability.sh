@@ -59,3 +59,42 @@ skill() {
   if write "$tmp" "$root/skills/$NAME/SKILL.md"; then rm -f "$tmp"; else rm -f "$tmp"; return 1; fi
  fi
 }
+writer_agent() {
+ local root tmp
+ case "$AGENT" in
+ opencode)
+  root="$DIR/.opencode"; [[ "$TARGET" == global ]] && root="$HOME/.config/opencode"
+  [[ ! -e "$root/agent/codewriter.md" && ! -e "$root/command/codewriter.md" ]] || { echo "Competing CodeWriter agent definition" >&2; return 1; }
+  compose "$BASE/codewriter/packaging/opencode/agent-frontmatter.md" "$root/agents/codewriter.md"
+  write "$BASE/codewriter/packaging/opencode/command.md" "$root/commands/codewriter.md" ;;
+ claude)
+  root="$DIR/.claude"
+  compose "$BASE/codewriter/packaging/claude/agent-frontmatter.md" "$root/agents/codewriter.md" ;;
+ copilot)
+  root="$DIR/.github"; [[ "$TARGET" == global ]] && root="$HOME/.copilot"
+  compose "$BASE/codewriter/packaging/copilot/agent-frontmatter.md" "$root/agents/codewriter.agent.md" ;;
+ codex)
+  root="$DIR/.codex"
+  tmp="$(mktemp)"
+  { printf '%s\n' 'name = "codewriter"' 'description = "Implement code using CodeBrief project rules."' 'sandbox_mode = "workspace-write"' 'developer_instructions = """'
+    cat "$SOURCE"; printf '\n%s\n' '"""'
+  } > "$tmp"
+  if write "$tmp" "$root/agents/codewriter.toml"; then rm -f "$tmp"; else rm -f "$tmp"; return 1; fi ;;
+ cursor) skill ;;
+ prompt)
+  root="$DIR/.codefactory"; [[ "$TARGET" == global ]] && root="$HOME/.config/codefactory"
+  write "$SOURCE" "$root/codewriter.md" ;;
+ esac
+}
+agent() {
+ if [[ "$NAME" == codewriter ]]; then writer_agent; return; fi
+ local args=(--agent "$AGENT")
+ if [[ "$TARGET" == global ]]; then args+=(--global); else args+=(--local "$DIR"); fi
+ if ((YES)); then args+=(--yes); fi
+ bash "$BASE/$NAME/install.sh" "${args[@]}"
+}
+case "$FORMAT" in
+ skill) skill ;;
+ agent) agent ;;
+ both) agent; skill ;;
+esac
