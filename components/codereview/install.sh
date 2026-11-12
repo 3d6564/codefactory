@@ -1,6 +1,14 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# Delegate explicitly selected packaging formats to the shared installer.
+for option in "$@"; do
+    if [[ "$option" == --format ]]; then
+        COMPONENT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+        exec bash "$COMPONENT_DIR/../install-capability.sh" codereview "$@"
+    fi
+done
+
 MODE="global"
 TARGET_DIR=""
 ASSUME_YES=0
