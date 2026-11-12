@@ -76,8 +76,8 @@ writer_agent() {
  codex)
   root="$DIR/.codex"
   tmp="$(mktemp)"
-  { printf '%s\n' 'name = "codewriter"' 'description = "Implement code using CodeBrief project rules."' 'sandbox_mode = "workspace-write"' 'developer_instructions = """'
-    cat "$SOURCE"; printf '\n%s\n' '"""'
+  { printf '%s\n' 'name = "codewriter"' 'description = "Implement code using CodeBrief project rules."' 'sandbox_mode = "workspace-write"' "developer_instructions = '''"
+    cat "$SOURCE"; printf '\n%s\n' "'''"
   } > "$tmp"
   if write "$tmp" "$root/agents/codewriter.toml"; then rm -f "$tmp"; else rm -f "$tmp"; return 1; fi ;;
  cursor) skill ;;
