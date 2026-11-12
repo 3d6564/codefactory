@@ -1,65 +1,62 @@
 # CodeWriter
 
-Implement requested code changes in the current project. Use the project's instructions as constraints, not as suggestions. This file is a standalone skill: it does not require a custom agent, a specific model, another CodeFactory component, or network access.
+Implement requested changes using the project's rules. This standalone skill needs no CodeFactory agent, model, runtime, or network connection. It grants no tool permissions.
 
-## Start and project context
+## Start
 
-1. Identify the project root and requested change. Read applicable `AGENTS.md`, `INSTRUCTIONS.md`, `CONTRIBUTING.md`, architecture guidance, relevant source, and documented checks. Read instructions in the closest scope first; report conflicting requirements instead of choosing silently.
-2. Check whether an applicable `INSTRUCTIONS.md` has the exact `<!-- codebrief -->` comment as the first nonblank line after its top-level title. If present, use those CodeBrief-produced project decisions as mandatory context. If absent, recommend running CodeBrief and ask whether to proceed using the existing project guidance. Do not claim CodeBrief ran.
-3. Identify the acceptance criteria, affected interfaces, tests, and approvals. Ask about decisions that materially affect behavior, security, public interfaces, or irreversible actions. Do not invent project policies.
-4. Select the requested operating behavior. Default to **guided** when unspecified:
-   - **guided**: describe the intended changes and checks before editing.
-   - **focused**: make the smallest change that satisfies the request; still obey all safety checks.
-   - **autonomous**: continue without routine confirmation only for operations already authorized by project guidance. Never interpret this as blanket permission.
-5. Before edits, check the working tree and preserve unrelated changes. If source control is unavailable, report it and continue only with allowed local work.
+1. Find the project root. Read applicable `AGENTS.md`, `INSTRUCTIONS.md`, `CONTRIBUTING.md`, architecture notes, relevant code, and test commands. Follow the most specific instructions. Report conflicts; do not guess.
+2. Check whether an applicable `INSTRUCTIONS.md` places `<!-- codebrief -->` on the first nonblank line after its top-level heading. If so, follow its CodeBrief decisions. Otherwise, recommend CodeBrief and ask whether to continue with existing guidance. Never assume CodeBrief ran.
+3. Confirm the requested behavior, acceptance criteria, affected interfaces, and required approvals. Ask before making consequential unresolved decisions.
+4. Check the working tree. Preserve unrelated changes. If Git is unavailable, report that limitation.
 
-## Implementation
+## Operating mode
 
-- Write correct, human-readable code. Prefer descriptive names, small cohesive functions, explicit control flow, existing project conventions, and standard language features. Do not add abstractions, dependencies, or clever shortcuts without a concrete need.
-- Avoid unnecessary work, repeated queries, unbounded loops, and avoidable I/O. Consider algorithmic complexity, realistic input size, allocation churn, memory growth, copying, resource lifetime, streaming, batching, and bounded concurrency where relevant. Prefer readable code unless measurement or explicit constraints justify optimization.
-- Make security controls explicit at trust boundaries: validate input and types; enforce size limits and authorization; use parameterized queries and context-appropriate output encoding; treat paths, subprocess arguments, deserialization, URLs, and external results as untrusted. Do not embed secrets or weaken secure defaults. Handle failures safely and release resources. Avoid uncontrolled recursion or memory/CPU exhaustion. Follow project-specific threat models.
-- Never claim code is optimized, secure, or exploit-proof without evidence. Record important performance or security tradeoffs and residual risks.
-- Keep edits scoped. Add or update focused tests for expected behavior, input boundaries, error handling, and realistic abuse cases. Run documented checks; do not invent a test result.
+Use the requested mode; default to **guided**.
+- **guided:** State the plan and checks before editing.
+- **focused:** Make only the changes needed to meet the request.
+- **autonomous:** Perform authorized work without routine confirmation.
 
-## Docstrings and future code discovery
+All modes obey the same project rules and approval limits.
 
-Document each new or materially changed **public function, class, method, and non-obvious interface** with a concise, language-idiomatic docstring. Internal trivial helpers need one only when it adds information. Preserve the project's existing documentation convention; otherwise use Google-style docstrings for Python, JSDoc for JavaScript/TypeScript, Rustdoc for Rust, or the language's usual format.
+## Code requirements
 
-A useful docstring:
-- Starts with one precise sentence stating purpose and distinguishing behavior; make this sentence searchable by symbol and task.
-- Names parameters, return values, yields, and errors **when not obvious**; document units, accepted ranges, defaults, ownership, and nullability when significant.
-- States important side effects, concurrency requirements, performance bounds, trust assumptions, and invariants only when they matter to a caller or maintainer.
-- Uses the same parameter and symbol names as the implementation. Prefer searchable exact terms and API names.
-- Avoids duplicating type annotations, repeating the function name, narrating statements, speculative promises, lengthy examples, and stale implementation details.
-- Is kept current whenever behavior or a contract changes.
+- **Clarity:** Write correct, human-readable code. Use clear names, cohesive functions, explicit control flow, and project conventions. Avoid needless abstractions and dependencies.
+- **Efficiency:** Assess time complexity, I/O, memory use, copies, allocations, and resource lifetime for expected inputs. Bound memory and concurrency; stream or batch large data when useful. Optimize measured problems, not guesses. Preserve readability.
+- **Security:** Apply the project's threat model. Validate untrusted input, enforce authorization and resource limits, parameterize queries, encode output for its context, and safely handle paths, commands, and deserialization. Protect secrets, close resources, and fail safely. Do not claim exploit resistance without evidence.
+- **Verification:** Keep changes scoped. Test normal behavior, boundaries, failures, and relevant abuse cases. Run documented checks. Report unverified performance and security risks.
 
-Python example (adapt to project conventions):
+## Docstrings and discovery
+
+Write concise, searchable docstrings for new or materially changed public functions, classes, methods, and non-obvious interfaces. Follow the project's style; otherwise use the language's usual format (Google-style Python, JSDoc, or Rustdoc).
+
+- Start with one active-voice sentence that states the symbol's purpose and distinctive behavior.
+- Document arguments, returns or yields, errors, units, limits, side effects, and invariants when callers need them.
+- Match parameter and symbol names exactly. Keep contracts current.
+- Omit obvious types, repeated code, vague claims, and implementation narration.
+- Find symbols through language-server navigation or targeted search. Read only relevant code; do not add a duplicate index.
+
+Example:
 
 ```python
 def read_records(path: Path, max_bytes: int) -> Iterator[Record]:
-    """Stream validated records without loading the entire file.
+    """Stream validated records without loading the full file.
 
     Args:
-        path: File to read; must remain inside the permitted data directory.
-        max_bytes: Maximum input size in bytes.
+        path: File within the permitted data directory.
+        max_bytes: Maximum file size in bytes.
 
     Yields:
-        Parsed records in source order.
+        Validated records in source order.
 
     Raises:
-        ValueError: If the path is invalid or the size limit is exceeded.
+        ValueError: If the path or size violates its limits.
     """
 ```
 
-Use source symbols, language-server navigation, and targeted text search to find code and docstrings. Inspect the smallest relevant source range before loading large files. Do not create a second documentation index unless the project requires it.
+## Tools and handoff
 
-## Tools and workflow
+Use only available, authorized tools. Follow the project's issue, branch, commit, test, and PR workflow. Ask before actions that require approval, including restricted network access, dependency changes, deletion, releases, or deployment. Never merge or deploy automatically.
 
-- Use only tools available in the current environment. A skill alone never grants file, shell, source-control, provider, or delegation permissions.
-- Follow the project's documented issue, branch, commit, check, and PR workflow when present. Ask before prohibited network calls, dependency changes, deployments, destructive operations, releases, or other changes requiring approval.
-- If CodeReview is installed and the host supports delegation, offer an independent review handoff. Otherwise deliver a concise review-ready summary; do not impersonate an independent reviewer.
-- Never automatically merge or deploy.
+Offer a CodeReview handoff when available; otherwise provide a review-ready summary. Do not represent self-review as independent review.
 
-## Completion
-
-Report files changed, observed behavior, checks run and their actual results, outstanding security/performance risks, assumptions, and deferred items. Name blocked checks and explain why. Do not state that unverified tests passed.
+Report changed files, actual check results, assumptions, remaining risks, and deferred work. Identify every check you could not run.
