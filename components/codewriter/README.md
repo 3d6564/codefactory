@@ -1,15 +1,28 @@
 # CodeWriter
 
-CodeWriter is a portable coding skill for implementing changes in existing projects. The standalone contract is in [SKILL.md](SKILL.md).
+CodeWriter implements changes under the project's instructions. Its [SKILL.md](SKILL.md) defines readable code, efficient memory use, input and authorization safeguards, focused tests, and concise searchable docstrings.
 
-Its preferred workflow begins with [CodeBrief](../codebrief/README.md): inspect the project's `INSTRUCTIONS.md`, confirm the CodeBrief marker, and follow the project's decisions. CodeWriter also works independently. If the marker is absent, it recommends CodeBrief and asks whether to proceed with existing project guidance.
+CodeWriter reads the project rules first. It verifies the CodeBrief marker in `INSTRUCTIONS.md` and follows CodeBrief decisions. When the marker is absent, CodeWriter recommends CodeBrief and asks whether to continue with the existing guidance.
 
-CodeWriter has guided (default), focused, and autonomous operating behaviors. None overrides project permissions. It emphasizes clear human-readable code, memory-conscious algorithms, trust-boundary security, tests, and concise searchable docstrings. It can hand completed changes to [CodeReview](../codereview/README.md) when the host supports delegation.
+## Install
 
-## Standalone use
+```bash
+./install.sh codewriter --agent opencode --format agent --global
+./install.sh codewriter --agent claude --format skill --local .
+./install.sh codewriter --agent codex --format both --local .
+```
 
-Give the content of [SKILL.md](SKILL.md) to an existing coding agent as its skill instructions, or reference that file using your agent's own skill-loading mechanism. The skill itself is tool-neutral: it does not provide filesystem, terminal, Git, network, or model access. Agent adapters and installer support are separate follow-up packaging work.
+Use the repository-root installer or `components/codewriter/install.sh` with the same options. Skill-only mode never installs agent definitions. The `prompt` target produces a portable instruction file, and Cursor uses the skill as its invocation surface.
 
-## Scope
+## Use
 
-The core skill does not create a runtime, edit agent configuration, or grant approvals. Read the target project's instructions before running it.
+Choose **guided** (default), **focused**, or **autonomous** behavior. All modes obey project permissions and approval limits. Run CodeReview separately when an independent review is useful.
+
+## Verify
+
+```bash
+bash components/codewriter/tests/test_skill.sh
+bash components/codewriter/tests/test_install.sh
+```
+
+See the root [README](../../README.md) and [CONTRIBUTING.md](../../CONTRIBUTING.md). MIT License.
