@@ -50,4 +50,8 @@ bash components/codereview/tests/test_install.sh
 
 Tests use temporary directories and do not modify the user's agent configuration.
 
+## Releases
+
+See [VERSIONS.md](VERSIONS.md) for the version policy and planned initial release.
+
 See [CONTRIBUTING.md](CONTRIBUTING.md) for development workflow. MIT License; see [LICENSE](LICENSE).
