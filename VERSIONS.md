@@ -8,12 +8,10 @@ Users install a version from a trusted checkout with `./install.sh`. The
 installer does not download CodeFactory or report its version. Update this file
 with each version and release date before creating its tag.
 
-## Planned initial release
+## Releases
 
-### v0.1.0
+### v0.1.0 — 2026-11-13
 
-Status: planned. No tag or GitHub Release exists for this version.
-
-- Package CodeBrief, CodeWriter, and CodeReview as independently installable
-  coding-agent capabilities.
-- Support agent and standalone skill installation for the supported hosts.
+- Initial release of CodeBrief, CodeWriter, and CodeReview as independently
+  installable capabilities, with agent and standalone skill formats for the
+  supported hosts.
