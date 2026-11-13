@@ -35,6 +35,6 @@ assert_file "$TEMP_DIR/project/.codefactory/codereview.md"
 
 HOME="$TEMP_DIR/home" bash "$PROJECT_DIR/install.sh" \
     codeskills --agent prompt --global --yes >/dev/null
-assert_file "$TEMP_DIR/home/.config/codefactory/codeskills/backlog-triage.md"
+assert_file "$TEMP_DIR/home/.config/codefactory/skills/backlog-triage/SKILL.md"
 
 echo "Codefactory dispatcher checks passed."

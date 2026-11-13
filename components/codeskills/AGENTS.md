@@ -2,13 +2,13 @@
 
 ## Purpose
 
-Codeskills packages reusable, separately installable skills for coding agents.
+Codeskills packages reusable, separately installable skills without agent definitions.
 The first skill, `backlog-triage`, reviews project work before implementation.
 
 ## Working Rules
 
 - Read and follow `../../INSTRUCTIONS.md` and `../../CONTRIBUTING.md`.
-- Keep each skill under `skills/<skill-name>/` with a portable `SKILL.md` and adapter frontmatter.
+- Keep each skill under `skills/<skill-name>/` with a portable `SKILL.md` and host-specific skill frontmatter only where needed.
 - Keep skills report-first. Do not change target repository files.
 - Check applicable `INSTRUCTIONS.md` files for the Codebrief marker before a skill starts. Ask when it is absent.
 - Ask before network access and before remote issue or board changes.
@@ -17,7 +17,7 @@ The first skill, `backlog-triage`, reviews project work before implementation.
 ## Project Layout
 
 - `skills/backlog-triage/`: project-work triage skill and adapter frontmatter.
-- `install.sh`: installs every included skill for one selected coding agent.
+- `install.sh`: installs every included skill for one selected host.
 - `tests/test_install.sh`: offline installer checks.
 
 ## Verification

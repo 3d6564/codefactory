@@ -5,9 +5,9 @@
 ## Project
 
 Codefactory packages focused, separately installable coding-agent capabilities.
-Current components are `codebrief`, `codereview`, and `codeskills`.
+Current components are `codebrief`, `codewriter`, `codereview`, and `codeskills`.
 
-Harden existing components and add behavior inside them. Do not add another
+Keep all four components independently installable. Do not add another
 component without approval. Do not add a new agent install target beyond
 `opencode`, `prompt`, `claude`, `cursor`, `copilot`, and `codex` without
 approval. Do not add an application runtime or model API dependency without
@@ -26,12 +26,13 @@ approval.
 
 Treat these as the named sources:
 
-- root `AGENTS.md`, `INSTRUCTIONS.md`, `CONTRIBUTING.md`, and `VERSIONS.md`
-- component `AGENTS.md` files
-- each component `prompt/` directory
+- root `AGENTS.md`, `INSTRUCTIONS.md`, and `CONTRIBUTING.md`
+- `components/codebrief/AGENTS.md`, `components/codewriter/AGENTS.md`, `components/codereview/AGENTS.md`, and `components/codeskills/AGENTS.md`
+- each component's prompt or `SKILL.md` source
 - each component `packaging/` directory
-- root `install.sh` and each component `install.sh`
-- `tests/test_install.sh` and component `tests/test_install.sh` files
+- root `install.sh`, `components/install-capability.sh`, and each component `install.sh`
+- `tests/test_install.sh` and each component's `tests/` directory
+- `VERSIONS.md`
 
 Follow `CONTRIBUTING.md` for the full git and GitHub Issues procedure.
 
@@ -86,8 +87,9 @@ Follow `CONTRIBUTING.md` for the full git and GitHub Issues procedure.
 - If priority or size is missing, set it and report the value. If category is
   missing or any required value is unclear, ask before editing.
 - Use Conventional Commits: `type(scope): subject` with type `feat`, `fix`,
-  `docs`, `test`, `refactor`, or `chore` and scope `codebrief`, `codereview`, or
-  `root`. Reference the issue numbers. Do not rewrite history.
+  `docs`, `test`, `refactor`, or `chore` and scope `codebrief`, `codewriter`,
+  `codereview`, `codeskills`, or `root`. Reference the issue numbers. Do not
+  rewrite history.
 - After required checks pass, open the pull request, set `status: in-review`,
   and tell the owner it is ready to review. Do not wait to be asked. Do not
   merge.
@@ -125,6 +127,8 @@ documented.
 ```bash
 bash tests/test_install.sh
 bash components/codebrief/tests/test_install.sh
+bash components/codewriter/tests/test_skill.sh
+bash components/codewriter/tests/test_install.sh
 bash components/codereview/tests/test_install.sh
 bash components/codeskills/tests/test_install.sh
 ```
@@ -162,7 +166,7 @@ For work that already has the required issue labels and `status: in-progress`,
 the agent may create the topic branch, commit, push, set the required GitHub
 Issue labels, and open the pull request when required checks pass.
 
-Ask before merge, release, a new component, a new agent install target, a
+Ask before merge, release, another component, a new agent install target, a
 dependency change, a hosted-model send, or other network use.
 
 ## Definition of ready for review

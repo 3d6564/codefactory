@@ -1,9 +1,9 @@
 ---
-description: Reviews project work and prepares the next implementation choice.
+description: Implement code changes using CodeBrief project instructions.
 mode: primary
 temperature: 0.2
 permission:
-  "*": deny
+  "*": ask
   read:
     "*": allow
     "*.env": deny
@@ -16,10 +16,7 @@ permission:
   glob: allow
   grep: allow
   list: allow
-  question: allow
-  todowrite: allow
-  task: deny
-  edit: deny
+  edit: ask
   bash: ask
   webfetch: ask
   websearch: ask

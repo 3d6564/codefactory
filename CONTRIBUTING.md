@@ -36,7 +36,7 @@ Ask before putting unrelated issues on the same branch.
 Use Conventional Commits: `type(scope): subject`.
 
 - Types: `feat`, `fix`, `docs`, `test`, `refactor`, `chore`
-- Scopes: `codebrief`, `codereview`, `codeskills`, `root`
+- Scopes: `codebrief`, `codewriter`, `codereview`, `codeskills`, `root`
 - Reference the issue numbers in the message
 - Do not rewrite history
 
@@ -45,6 +45,8 @@ Use Conventional Commits: `type(scope): subject`.
 ```bash
 bash tests/test_install.sh
 bash components/codebrief/tests/test_install.sh
+bash components/codewriter/tests/test_skill.sh
+bash components/codewriter/tests/test_install.sh
 bash components/codereview/tests/test_install.sh
 bash components/codeskills/tests/test_install.sh
 ```
@@ -79,10 +81,11 @@ Squash merge after review.
 ## Change rules
 
 - Read `AGENTS.md` and the changed component's `AGENTS.md`.
-- Keep each component prompt under its `prompt/` directory or skill directory.
-- Keep adapter frontmatter under its component or skill directory.
+- Keep each component's behavior in its `prompt/` file or `SKILL.md`.
+- Keep reusable skills under `components/codeskills/skills/` and install them without requiring an agent definition.
+- Keep host-specific frontmatter under the component or skill's `packaging/` directory.
 - Do not invent other tools' config shapes.
 - Keep components independently installable.
-- Do not add a third component or a new agent install target without approval.
+- Do not add another component or a new agent install target without approval.
 - Update `README.md` when setup, commands, or install targets change.
 - Do not commit secrets, `.env`, or generated local install copies.

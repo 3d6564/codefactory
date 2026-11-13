@@ -17,6 +17,10 @@ jobs:
         run: bash tests/test_install.sh
       - name: Run Codebrief installer tests
         run: bash components/codebrief/tests/test_install.sh
+      - name: Run Codewriter skill checks
+        run: bash components/codewriter/tests/test_skill.sh
+      - name: Run Codewriter installer tests
+        run: bash components/codewriter/tests/test_install.sh
       - name: Run Codereview installer tests
         run: bash components/codereview/tests/test_install.sh
       - name: Run Codeskills installer tests

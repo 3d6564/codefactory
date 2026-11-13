@@ -61,6 +61,18 @@ finding Fixed, Not fixed, or Cannot check from current code and test evidence.
 It then previews only Fixed review comments and asks for approval before it
 resolves them.
 
+
+## Standalone skill and agent formats
+
+The CodeReview review process uses one core prompt: `prompt/codereview.md`. Install that same behavior as a reusable skill, an agent, or both. A standalone skill adds no custom agent definition and grants no tool permissions.
+
+```bash
+./install.sh codereview --agent opencode --format skill --local .
+./install.sh codereview --agent claude --format both --global
+```
+
+The root installer also accepts comma-separated component selections and `all`. Existing commands without `--format` retain agent installation behavior. Cursor uses its skill as the invocation surface. `prompt` exports instructions rather than a host-specific agent. See the [root installation guide](../../README.md).
+
 ## Verify
 
 ```bash
