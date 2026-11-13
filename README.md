@@ -4,7 +4,7 @@
 
 # CodeFactory
 
-CodeFactory provides three independently installable coding capabilities. Each works as a standalone skill or through an agent adapter. No CodeFactory runtime or model API is required.
+CodeFactory provides three independently installable coding capabilities. Each can be installed as an agent or a standalone skill for any supported host. No CodeFactory runtime or model API is required.
 
 | Component | Role | Documentation |
 | --- | --- | --- |
@@ -19,7 +19,8 @@ Specify a supported host (`opencode`, `claude`, `cursor`, `copilot`, `codex`, or
 ```bash
 ./install.sh codewriter --agent opencode --global
 ./install.sh codewriter --agent claude --format skill --local /path/to/project
-./install.sh codebrief,codereview --agent cursor --format skill --local .
+./install.sh codebrief --agent codex --format skill --global
+./install.sh codereview --agent copilot --format skill --local .
 ./install.sh all --agent opencode --format both --local .
 ```
 

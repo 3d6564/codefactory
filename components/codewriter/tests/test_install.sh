@@ -55,12 +55,27 @@ fi
 bash "$ROOT/install.sh" codewriter --agent prompt --format agent --local "$TMP/project" --yes
 assert_file "$TMP/project/.codefactory/codewriter.md"
 
-# Existing components provide skill-only packages without agent definitions.
-bash "$ROOT/install.sh" codebrief,codereview --agent opencode --format skill --local "$TMP/project" --yes
-assert_file "$TMP/project/.opencode/skills/codebrief/SKILL.md"
-assert_file "$TMP/project/.opencode/skills/codereview/SKILL.md"
-[[ ! -e "$TMP/project/.opencode/agents/codebrief.md" ]] || fail "CodeBrief skill created an agent"
-[[ ! -e "$TMP/project/.opencode/agents/codereview.md" ]] || fail "CodeReview skill created an agent"
+# Every core component installs as a standalone skill on each supported host.
+for name in codebrief codereview; do
+  for agent in opencode claude cursor copilot codex prompt; do
+    case "$agent" in
+      opencode) dest="$TMP/project/.opencode/skills/$name/SKILL.md"; other="$TMP/project/.opencode/agents/$name.md" ;;
+      claude) dest="$TMP/project/.claude/skills/$name/SKILL.md"; other="$TMP/project/.claude/agents/$name.md" ;;
+      cursor) dest="$TMP/project/.cursor/skills/$name/SKILL.md"; other="" ;;
+      copilot) dest="$TMP/project/.github/skills/$name/SKILL.md"; other="$TMP/project/.github/agents/$name.agent.md" ;;
+      codex) dest="$TMP/project/.agents/skills/$name/SKILL.md"; other="$TMP/project/.codex/agents/$name.toml" ;;
+      prompt) dest="$TMP/project/.codefactory/skills/$name/SKILL.md"; other="$TMP/project/.codefactory/$name.md" ;;
+    esac
+    bash "$ROOT/install.sh" "$name" --agent "$agent" --format skill --local "$TMP/project" --yes
+    assert_file "$dest"
+    if [[ "$name" == codebrief ]]; then
+      assert_has "$dest" "# Codebrief"
+    else
+      assert_has "$dest" "# Codereview"
+    fi
+    [[ -z "$other" || ! -e "$other" ]] || fail "$name skill install created agent: $other"
+  done
+done
 
 # A suite install produces all three components.
 HOME="$TMP/home" bash "$ROOT/install.sh" all --agent claude --format both --global --yes
