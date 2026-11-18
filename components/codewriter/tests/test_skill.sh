@@ -8,6 +8,11 @@ fail() { echo "FAIL: $1" >&2; exit 1; }
 [[ -f "$SKILL" ]] || fail "missing standalone skill"
 [[ -f "$ROOT/AGENTS.md" ]] || fail "missing scoped agent instructions"
 [[ -f "$ROOT/README.md" ]] || fail "missing README"
+grep -qF 'src="docs/art/codewriter.svg"' "$ROOT/README.md" || fail "missing README banner reference"
+[[ -f "$ROOT/docs/art/codewriter.svg" ]] || fail "missing Codewriter banner"
+for label in 'PLAN  /  IMPLEMENT  /  VERIFY' 'CODEWRITER' 'CODE + TESTS' 'aria-labelledby="title desc"'; do
+    grep -qF -- "$label" "$ROOT/docs/art/codewriter.svg" || fail "missing banner label: $label"
+done
 for token in '<!-- codebrief -->' 'guided' 'focused' 'autonomous' 'memory' 'authorization' 'docstring' 'tests' 'trust' 'CodeReview' 'Do not' ; do
     grep -qiF -- "$token" "$SKILL" || fail "missing contract term: $token"
 done

@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="docs/art/codewriter.svg" width="100%" alt="Codewriter turns a request and project guidance into code, focused tests, and a review-ready change report.">
+</p>
+
 # CodeWriter
 
 CodeWriter implements changes under the project's instructions. Its [SKILL.md](SKILL.md) defines readable code, efficient memory use, input and authorization safeguards, focused tests, and concise searchable docstrings.
