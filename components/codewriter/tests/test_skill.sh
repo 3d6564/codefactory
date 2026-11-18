@@ -12,4 +12,18 @@ for token in '<!-- codebrief -->' 'guided' 'focused' 'autonomous' 'memory' 'auth
     grep -qiF -- "$token" "$SKILL" || fail "missing contract term: $token"
 done
 grep -q 'def read_records' "$SKILL" || fail "missing docstring example"
+# Regression contract for #38. These checks guard prompt rules, not model execution.
+for rule in \
+    'Read the project `INSTRUCTIONS.md` directly' \
+    'An unmarked parent file does not cancel a valid project marker.' \
+    'Do not load or rerun CodeBrief merely because its marker is present.' \
+    'A failed or unavailable check is not an absent marker.' \
+    'Do not require `rg` or hide search errors' \
+    'Ask only once for the current project' \
+    'Carry this record into handoff and context-compaction summaries.' \
+    'If the record is missing after resuming, reread the applicable instruction files before asking.' \
+    'Recheck when the project or applicable guidance changes.'
+do
+    grep -qF -- "$rule" "$SKILL" || fail "missing CodeBrief confirmation rule: $rule"
+done
 echo "CodeWriter skill contract checks passed."

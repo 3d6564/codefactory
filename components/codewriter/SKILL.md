@@ -5,9 +5,17 @@ Implement requested changes using the project's rules. This standalone skill nee
 ## Start
 
 1. Find the project root. Read applicable `AGENTS.md`, `INSTRUCTIONS.md`, `CONTRIBUTING.md`, architecture notes, relevant code, and test commands. Follow the most specific instructions. Report conflicts; do not guess.
-2. Check whether an applicable `INSTRUCTIONS.md` places `<!-- codebrief -->` on the first nonblank line after its top-level heading. If so, follow its CodeBrief decisions. Otherwise, recommend CodeBrief and ask whether to continue with existing guidance. Never assume CodeBrief ran.
+2. Complete the CodeBrief confirmation check below before recommending CodeBrief or asking whether to continue. Never assume CodeBrief ran.
 3. Confirm the requested behavior, acceptance criteria, affected interfaces, and required approvals. Ask before making consequential unresolved decisions.
 4. Check the working tree. Preserve unrelated changes. If Git is unavailable, report that limitation.
+
+## CodeBrief confirmation
+
+- Read the project `INSTRUCTIONS.md` directly, along with applicable parent and closer instruction files. Do not decide from parent guidance alone. An unmarked parent file does not cancel a valid project marker.
+- Confirm CodeBrief when an applicable `INSTRUCTIONS.md` places the exact standalone `<!-- codebrief -->` comment on the first nonblank line after its top-level heading, or when the user confirms CodeBrief was used. Follow the existing decisions and all scoped project rules. Do not load or rerun CodeBrief merely because its marker is present.
+- Use available file-read tools for this check. A failed or unavailable check is not an absent marker. Do not require `rg` or hide search errors with `2>/dev/null` or `|| true`. If a file cannot be read, report the limitation rather than claiming the marker is absent.
+- If no applicable file confirms CodeBrief and there is no prior answer, recommend CodeBrief and ask whether to continue with existing guidance. Ask only once for the current project; respect a user decision to continue without describing unverified guidance as CodeBrief output. Start CodeBrief only when the user requests it.
+- Record the project root, checked instruction paths, and marker confirmation, user confirmation, or decision to continue. Carry this record into handoff and context-compaction summaries. Do not repeat a resolved question after compaction. If the record is missing after resuming, reread the applicable instruction files before asking. Recheck when the project or applicable guidance changes.
 
 ## Operating mode
 

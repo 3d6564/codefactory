@@ -6,6 +6,13 @@ trap 'rm -rf "$TMP"' EXIT
 fail() { echo "FAIL: $1" >&2; exit 1; }
 assert_file() { [[ -f "$1" ]] || fail "Missing $1"; }
 assert_has() { grep -qF -- "$2" "$1" || fail "Missing $2 in $1"; }
+assert_core() {
+  # Every installed surface must retain the complete shared behavior contract.
+  local source_line
+  while IFS= read -r source_line || [[ -n "$source_line" ]]; do
+    [[ -z "$source_line" ]] || assert_has "$1" "$source_line"
+  done < "$ROOT/components/codewriter/SKILL.md"
+}
 
 bash "$ROOT/components/codewriter/tests/test_skill.sh"
 mkdir -p "$TMP/home" "$TMP/project"
@@ -24,6 +31,7 @@ for agent in opencode claude cursor copilot codex prompt; do
   bash "$ROOT/install.sh" codewriter --agent "$agent" --format skill --local "$TMP/project" --yes
   assert_file "$dest"
   assert_has "$dest" "# CodeWriter"
+  assert_core "$dest"
   [[ ! -e "$other" ]] || fail "Skill-only installation created agent: $other"
 done
 
@@ -33,15 +41,18 @@ assert_file "$TMP/project/.opencode/agents/codewriter.md"
 assert_file "$TMP/project/.opencode/commands/codewriter.md"
 assert_has "$TMP/project/.opencode/agents/codewriter.md" "# CodeWriter"
 assert_has "$TMP/project/.opencode/agents/codewriter.md" "mode: primary"
+assert_core "$TMP/project/.opencode/agents/codewriter.md"
 bash "$ROOT/install.sh" codewriter --agent claude --format both --local "$TMP/project" --yes
 assert_file "$TMP/project/.claude/agents/codewriter.md"
+assert_core "$TMP/project/.claude/agents/codewriter.md"
 bash "$ROOT/install.sh" codewriter --agent copilot --format both --local "$TMP/project" --yes
 assert_file "$TMP/project/.github/agents/codewriter.agent.md"
+assert_core "$TMP/project/.github/agents/codewriter.agent.md"
 bash "$ROOT/install.sh" codewriter --agent codex --format both --local "$TMP/project" --yes
 assert_file "$TMP/project/.codex/agents/codewriter.toml"
 assert_has "$TMP/project/.codex/agents/codewriter.toml" "developer_instructions"
 if command -v python3 >/dev/null 2>&1; then
-  python3 - "$TMP/project/.codex/agents/codewriter.toml" <<'PY'
+  python3 - "$TMP/project/.codex/agents/codewriter.toml" "$ROOT/components/codewriter/SKILL.md" <<'PY'
 import pathlib
 import sys
 import tomllib
@@ -50,10 +61,12 @@ config = tomllib.loads(pathlib.Path(sys.argv[1]).read_text())
 assert config["name"] == "codewriter"
 assert "def read_records" in config["developer_instructions"]
 assert '"""Stream validated records' in config["developer_instructions"]
+assert config["developer_instructions"].strip() == pathlib.Path(sys.argv[2]).read_text().strip()
 PY
 fi
 bash "$ROOT/install.sh" codewriter --agent prompt --format agent --local "$TMP/project" --yes
 assert_file "$TMP/project/.codefactory/codewriter.md"
+assert_core "$TMP/project/.codefactory/codewriter.md"
 
 # Every core component installs as a standalone skill on each supported host.
 for name in codebrief codereview; do

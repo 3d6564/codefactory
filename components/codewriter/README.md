@@ -2,7 +2,9 @@
 
 CodeWriter implements changes under the project's instructions. Its [SKILL.md](SKILL.md) defines readable code, efficient memory use, input and authorization safeguards, focused tests, and concise searchable docstrings.
 
-CodeWriter reads the project rules first. It verifies the CodeBrief marker in `INSTRUCTIONS.md` and follows CodeBrief decisions. When the marker is absent, CodeWriter recommends CodeBrief and asks whether to continue with the existing guidance.
+CodeWriter reads project and scoped instruction files directly. A valid CodeBrief marker or user confirmation is enough to follow the existing decisions; neither starts a new interview. An unmarked parent file does not override a marked project file, and a failed file check does not mean the marker is absent.
+
+When confirmation is missing, CodeWriter recommends CodeBrief and asks once whether to continue with existing guidance. It carries the project-specific answer and checked paths into handoff and context-compaction summaries. After resuming without that record, it rereads the guidance before asking again. It rechecks when the project or applicable guidance changes.
 
 ## Install
 
@@ -26,3 +28,5 @@ bash components/codewriter/tests/test_install.sh
 ```
 
 See the root [README](../../README.md) and [CONTRIBUTING.md](../../CONTRIBUTING.md). MIT License.
+
+The offline checks verify prompt requirements and installed copies. They do not run a model or prove its behavior after context compaction.
