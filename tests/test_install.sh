@@ -13,6 +13,10 @@ assert_file "$PROJECT_DIR/components/codebrief/install.sh"
 assert_file "$PROJECT_DIR/components/codereview/install.sh"
 assert_contains "$PROJECT_DIR/README.md" 'pull request or merge request by URL or number'
 assert_contains "$PROJECT_DIR/install.sh" 'pull request or merge request by URL or number'
+assert_contains "$PROJECT_DIR/docs/art/codefactory.svg" '>CODEWRITER</text>'
+if grep -qF '>WRITE CODE</text>' "$PROJECT_DIR/docs/art/codefactory.svg"; then
+    fail "main banner still has an unnamed writing stage"
+fi
 
 if bash "$PROJECT_DIR/install.sh" >/dev/null 2>&1; then
     fail "missing component should fail"
