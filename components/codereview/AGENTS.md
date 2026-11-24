@@ -19,6 +19,10 @@ It does not implement product features in a target repository.
   project-specific requirements.
 - Review is report-only until the user explicitly requests provider comments,
   reviews, issues, or other remote changes.
+- A review with no blocking findings and no required changes is valid.
+  "No immediate recommendations" is an allowed outcome.
+  Do not invent findings, test risks, style notes, or filler suggestions to
+  avoid an empty review.
 - Make approved changes only to the selected provider's review workflow. Never
   edit target repository files, implement fixes, create commits, push code,
   or modify branches. Merge the selected review item only after completing the

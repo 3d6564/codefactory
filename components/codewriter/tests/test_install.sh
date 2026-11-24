@@ -41,6 +41,8 @@ assert_file "$TMP/project/.opencode/agents/codewriter.md"
 assert_file "$TMP/project/.opencode/commands/codewriter.md"
 assert_has "$TMP/project/.opencode/agents/codewriter.md" "# CodeWriter"
 assert_has "$TMP/project/.opencode/agents/codewriter.md" "mode: primary"
+assert_has "$TMP/project/.opencode/agents/codewriter.md" '  "*": ask'
+assert_has "$TMP/project/.opencode/agents/codewriter.md" '  question: allow'
 assert_core "$TMP/project/.opencode/agents/codewriter.md"
 bash "$ROOT/install.sh" codewriter --agent claude --format both --local "$TMP/project" --yes
 assert_file "$TMP/project/.claude/agents/codewriter.md"
