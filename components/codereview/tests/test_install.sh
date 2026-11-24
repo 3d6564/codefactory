@@ -65,6 +65,11 @@ assert_contains "$PROJECT_DIR/prompt/codereview.md" 'Network approval does not a
 assert_contains "$PROJECT_DIR/prompt/codereview.md" 'Do not resolve unrelated, outdated, informational, or duplicate review'
 assert_no_code_changes_contract
 assert_merge_contract
+for file in "$PROJECT_DIR/prompt/codereview.md" \
+    "$PROJECT_DIR/AGENTS.md" "$PROJECT_DIR/README.md"; do
+    assert_contains "$file" 'No immediate recommendations'
+    assert_contains "$file" 'Do not invent findings, test risks, style notes, or filler suggestions'
+done
 
 if bash "$PROJECT_DIR/install.sh" --local >/dev/null 2>&1; then
     fail "--local without a path should fail"

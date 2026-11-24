@@ -4,6 +4,7 @@ mode: primary
 temperature: 0.2
 permission:
   "*": ask
+  question: allow
   read:
     "*": allow
     "*.env": deny

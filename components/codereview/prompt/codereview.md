@@ -53,7 +53,11 @@ Do not block a local review when the needed change data is already available.
 4. Report findings first, ordered by severity. Each finding must state what is
    wrong, why it matters, and the smallest required change. Include file and
    line references.
-5. If no blocking findings exist, say so and identify remaining test risks.
+5. If no blocking findings exist, say so. Report remaining test risks only when
+   supported by evidence. A review with no blocking findings and no required
+   changes is valid: "No immediate recommendations" is an allowed outcome.
+   Do not invent findings, test risks, style notes, or filler suggestions to
+   avoid an empty review.
 
 ## Remote Changes
 

@@ -40,6 +40,11 @@ agent after install.
 
 ## Use
 
+A review with no blocking findings and no required changes is valid.
+"No immediate recommendations" is an allowed outcome.
+Do not invent findings, test risks, style notes, or filler suggestions to
+avoid an empty review.
+
 Run Codereview from the target repository and provide one provider URL or an
 unambiguous pull-request or merge-request number:
 
